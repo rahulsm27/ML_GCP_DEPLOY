@@ -58,3 +58,6 @@ Since this setup doesn't use expernal IP, you need ssh tunneling in order to vie
 ### Step 6) Finally
 
 Happy experimentation! :)
+
+for creating internal tunnel to view mlflow
+#gcloud compute ssh mlendtoend-mlflow --zone europe-west4-a --tunnel-through-iap -- -N -L 6100:localhost:6100
