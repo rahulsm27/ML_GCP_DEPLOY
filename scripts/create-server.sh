@@ -26,3 +26,5 @@ postgres_host="${POSTGRES_HOST}",\
 postgres_port="${POSTGRES_PORT}",\
 postgres_database_name="${POSTGRES_DATABASE_NAME}",\
 postgres_password_secret_name="${POSTGRES_PASSWORD_SECRET_NAME}"
+# using metadata we pass environment varialbes through metabdata
+# using startup script we read the metadata

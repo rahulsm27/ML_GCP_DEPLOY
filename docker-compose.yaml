@@ -9,9 +9,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-    env_file:
-      - .envs/.gcp
-      - .envs/.tracking-server
+    env_file: .env
+     # - .envs/.gcp
+     # - .envs/.tracking-server
     ipc: host
     network_mode: host
     init: true

@@ -1,17 +1,19 @@
 # Make all targets .PHONY
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
-include .envs/.gcp
-include .envs/.tracking-server
+#include .envs/.gcp
+#include .envs/.tracking-server
+
+include .env
 export 
 
 SHELL := /usr/bin/env bash
 HOSTNAME := $(shell hostname)
 
 ifeq (, $(shell which docker-compose))
-	DOCKER_COMPOSE_COMMAND = docker compose
+	DOCKER_COMPOSE_COMMAND = sudo docker compose
 else
-	DOCKER_COMPOSE_COMMAND = docker-compose
+	DOCKER_COMPOSE_COMMAND = sudo docker-compose
 endif
 
 include .envs/.gcp
@@ -34,17 +36,22 @@ mlflow-tunnel:
 
 ## Build docker containers with docker-compose
 build:
-	$(DOCKER_COMPOSE_COMMAND) build
-
+	$(DOCKER_COMPOSE_COMMAND) build 
+	
 ## Build docker containers with docker-compose
 _build-for-dependencies:
 	rm -f *lock
 	$(DOCKER_COMPOSE_COMMAND) build
 
 ## Push docker image to GCP Container Registery. Requires IMAGE_TAG to be specified.
+# push: guard-IMAGE_TAG build
+# 	@gcloud auth configure-docker eu.gcr.io --quiet
+# 	@docker tag  "${DOCKER_IMAGE_NAME}:latest" "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
+# 	@docker push "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
+
 push: guard-IMAGE_TAG build
 	@gcloud auth configure-docker eu.gcr.io --quiet
-	@docker tag  "${DOCKER_IMAGE_NAME}:latest" "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
+	@docker tag  "mlflow-tracking-server-gcp-deployment-app" "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
 	@docker push "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
 
 ## docker-compose up
