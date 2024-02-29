@@ -51,8 +51,9 @@ _build-for-dependencies:
 
 push: guard-IMAGE_TAG build
 	@gcloud auth configure-docker eu.gcr.io --quiet
-	@docker tag  "mlflow-tracking-server-gcp-deployment-app" "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
+	@docker tag  "${DOCKER_IMAGE_NAME}:latest" "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
 	@docker push "$${GCP_DOCKER_REGISTERY_URL}:$${IMAGE_TAG}"
+
 
 ## docker-compose up
 up:

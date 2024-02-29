@@ -1,4 +1,6 @@
 # MLFlow Tracking Server
+This repo demonstrates how to deploy MLflow tracking server on cloud
+The deployed server can be used for experiment tracking in other projects. I have used the server deployed through below code in my distributed pytorch traning project of tweets sentiment analysis
 
 ## Prerequisites
 
@@ -20,7 +22,7 @@ use this repository, you need to create a new serverles PostgreSQL instance on G
 
 MLFlow needs a large storage to store your artifacts. So you need to create a GCS Bucket for MLFlow:
 
-1. [Create Bucket](https://console.cloud.google.com/storage/browser)
+ [Create Bucket](https://console.cloud.google.com/storage/browser)
 
 ### Step 3) Set Environment Variables
 
@@ -56,8 +58,6 @@ Since this setup doesn't use expernal IP, you need ssh tunneling in order to vie
 4. Run `python ./examples/connecting-to-tracking-server.py` to see if everything is working.
 
 ### Step 6) Finally
-
-Happy experimentation! :)
 
 for creating internal tunnel to view mlflow
 #gcloud compute ssh mlendtoend-mlflow --zone europe-west4-a --tunnel-through-iap -- -N -L 6100:localhost:6100
